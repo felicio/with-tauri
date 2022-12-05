@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "dev:tauri": "tauri dev",
+    "debug:tauri": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS=\"--remote-debugging-port=1421\" tauri dev"
   },
   "dependencies": {
     "react": "^18.2.0",
