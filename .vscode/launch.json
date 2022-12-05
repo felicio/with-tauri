@@ -1,0 +1,28 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "attach",
+      "name": "Attach to Tauri via LLDB",
+      "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}"
+    },
+    // todo: see https://stackoverflow.com/a/73652541/6924883 for pre-lauch build task
+    // todo: see https://users.rust-lang.org/t/error-theres-no-debug-target-with-rust-analyzer-vscode/47177/2 for pre-lauch build task with `cargo` option
+    // todo: see https://www.forrestthewoods.com/blog/how-to-debug-rust-with-visual-studio-code/ for stepping into C++
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Launch via LLDB",
+      // note: `name` from Cargo.toml
+      // note: accessible after cargo build
+      "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    }
+  ]
+}
