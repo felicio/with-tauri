@@ -58,7 +58,8 @@
         "height": 600,
         "resizable": true,
         "title": "with-tauri",
-        "width": 800
+        "width": 800,
+        "maximized": true
       }
     ]
   }
