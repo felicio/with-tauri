@@ -10,6 +10,9 @@ function App() {
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     setGreetMsg(await invoke("greet", { name }));
+
+    const res = await invoke("my_custom_command", { number: 42 });
+    console.log(`Message: ${res.message}, Other Val: ${res.other_val}`);
   }
 
   return (
