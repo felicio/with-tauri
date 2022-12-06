@@ -6,9 +6,43 @@
   "configurations": [
     {
       "type": "lldb",
+      "request": "launch",
+      "name": "Tauri Development Debug",
+      "cargo": {
+        "args": [
+          "build",
+          "--manifest-path=./src-tauri/Cargo.toml",
+          "--no-default-features"
+        ]
+      },
+      // task for the `beforeDevCommand` if used, must be configured in `.vscode/tasks.json`
+      "preLaunchTask": "ui:dev"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Tauri Production Debug",
+      "cargo": {
+        "args": ["build", "--release", "--manifest-path=./src-tauri/Cargo.toml"]
+      },
+      // task for the `beforeBuildCommand` if used, must be configured in `.vscode/tasks.json`
+      "preLaunchTask": "ui:build"
+    },
+    // https://github.com/tauri-apps/tauri-docs/issues/842#issuecomment-1234522320 for info about not working on macOS' WKWebView
+    // https://github.com/tauri-apps/wry/issues/678 for info about WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS
+    {
+      "name": "Attach to Tauiri via WebView",
+      "port": 1421,
+      "request": "attach",
+      "type": "chrome",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true
+    },
+    {
+      "type": "lldb",
       "request": "attach",
       "name": "Attach to Tauri via LLDB",
-      "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}"
+      "program": "${workspaceFolder}/src-tauri/target/debug/with-tauri"
     },
     // todo: see https://stackoverflow.com/a/73652541/6924883 for pre-lauch build task
     // todo: see https://users.rust-lang.org/t/error-theres-no-debug-target-with-rust-analyzer-vscode/47177/2 for pre-lauch build task with `cargo` option
@@ -16,10 +50,10 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Launch via LLDB",
+      "name": "Launch Tauri via LLDB",
       // note: `name` from Cargo.toml
       // note: accessible after cargo build
-      "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
+      "program": "${workspaceFolder}/src-tauri/target/debug/with-tauri",
       "args": [],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole"
