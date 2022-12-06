@@ -1,18 +1,23 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import { invoke } from '@tauri-apps/api/tauri'
+import './App.css'
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  const [greetMsg, setGreetMsg] = useState('')
+  const [name, setName] = useState('')
+  const [messages, setMessages] = useState([])
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
+    setGreetMsg(await invoke('greet', { name }))
 
-    const res = await invoke("my_custom_command", { number: 42 }) as any;
-    console.log(`Message: ${res.message}, Other Val: ${res.other_val}`);
+    // const res = (await invoke('my_custom_command', { number: 42 })) as any
+    // console.log(`Message: ${res.message}, Other Val: ${res.other_val}`)
+  }
+
+  async function fetch() {
+    setMessages(await invoke('fetch_messages'))
   }
 
   return (
@@ -46,8 +51,22 @@ function App() {
         </div>
       </div>
       <p>{greetMsg}</p>
+
+      <div className="row">
+        <button type="button" onClick={() => fetch()}>
+          Fetch
+        </button>
+      </div>
+
+      <div className="row">
+        <ul>
+          {messages.map((message, index) => (
+            <li key={index}>{message}</li>
+          ))}
+        </ul>
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

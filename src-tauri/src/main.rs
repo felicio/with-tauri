@@ -25,12 +25,12 @@ struct Database;
 
 struct Node(WakuNodeHandle<Running>);
 
-#[derive(Debug)]
-struct PrettyMessage {
-    timestamp: String,
-    nick: String,
-    message: String,
-}
+// #[derive(Debug)]
+// struct PrettyMessage {
+//     timestamp: String,
+//     nick: String,
+//     message: String,
+// }
 
 #[derive(serde::Serialize)]
 struct CustomResponse {
@@ -114,7 +114,7 @@ async fn my_custom_command(
 fn fetch_messages(
     // node_handle: &WakuNodeHandle<Running>,
     node_handle: tauri::State<Node>,
-) -> Vec<Chat2Message> {
+) -> Vec<String> {
     // ) -> VecWrapper {
     let self_id = node_handle.0.peer_id().unwrap();
     let peer = node_handle
@@ -134,7 +134,7 @@ fn fetch_messages(
                 content_filters: vec![ContentFilter::new(TOY_CHAT_CONTENT_TOPIC.clone())],
                 start_time: Some(
                     (Duration::from_secs(Utc::now().timestamp() as u64)
-                        - Duration::from_secs(60 * 60 * 24))
+                        - Duration::from_secs(60 * 60 * 24 * 7))
                     .as_nanos() as usize,
                 ),
                 end_time: None,
@@ -149,14 +149,14 @@ fn fetch_messages(
         )
         .unwrap();
 
-    let messages: Vec<Chat2Message> = result
-        // let messages: Vec<String> = result
+    // let messages: Vec<Chat2Message> = result
+    let messages: Vec<String> = result
         .messages()
         .iter()
         .map(|waku_message| {
             <Chat2Message as Message>::decode(waku_message.payload())
                 .expect("Toy chat messages should be decodeable")
-            // .message()
+                .message()
         })
         .collect();
 
